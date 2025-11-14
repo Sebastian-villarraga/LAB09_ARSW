@@ -85,10 +85,16 @@ node FibonacciApp.js
     * 1070000
     * 1080000
     * 1090000    
+- lo que realizamos
+- <img width="560" height="348" alt="image" src="https://github.com/user-attachments/assets/a7d6676c-8b1c-49d1-b513-f1d83dca2bad" />
 
 8. Dírijase ahora a Azure y verifique el consumo de CPU para la VM. (Los resultados pueden tardar 5 minutos en aparecer).
 
 ![Imágen 2](images/part1/part1-vm-cpu.png)
+- Lo que realizamos
+- <img width="765" height="474" alt="image" src="https://github.com/user-attachments/assets/af66652e-0e9c-42ad-a7a0-737608796c0c" />
+
+
 
 9. Ahora usaremos Postman para simular una carga concurrente a nuestro sistema. Siga estos pasos.
     * Instale newman con el comando `npm install newman -g`. Para conocer más de Newman consulte el siguiente [enlace](https://learning.getpostman.com/docs/postman/collection-runs/command-line-integration-with-newman/).
@@ -100,7 +106,18 @@ node FibonacciApp.js
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
     newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
     ```
+- Lo que realizamos
+- Se instalo newman con el siguiente comando:
 
+  ```text
+  npm install -g newman
+    ```
+- Se cambió el valor del parámetro VM1
+   ```text
+    "key": "VM1",
+    "value": "172.200.71.211",
+    "enabled": true
+  ```
 10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure diríjase a la sección *size* y a continuación seleccione el tamaño `B2ms`.
 
 ![Imágen 3](images/part1/part1-vm-resize.png)
