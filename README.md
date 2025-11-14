@@ -121,8 +121,20 @@ node FibonacciApp.js
 10. La cantidad de CPU consumida es bastante grande y un conjunto considerable de peticiones concurrentes pueden hacer fallar nuestro servicio. Para solucionarlo usaremos una estrategia de Escalamiento Vertical. En Azure diríjase a la sección *size* y a continuación seleccione el tamaño `B2ms`.
 
 ![Imágen 3](images/part1/part1-vm-resize.png)
+- Lo que realizamos
+- Se cambió el tamaño de la VM a B2ms
+
+
+- <img width="403" height="156" alt="image" src="https://github.com/user-attachments/assets/b1a443bd-7121-4bfc-b6d8-381460ef08a3" />
 
 11. Una vez el cambio se vea reflejado, repita el paso 7, 8 y 9.
+
+- Lo que realizamos
+- <img width="554" height="315" alt="image" src="https://github.com/user-attachments/assets/ca311584-186f-4488-ab3f-9be682a4cbce" />
+- <img width="483" height="392" alt="image" src="https://github.com/user-attachments/assets/37ef0621-c796-454a-9460-61836b8b83ac" />
+- <img width="834" height="458" alt="image" src="https://github.com/user-attachments/assets/6af87ae9-76d6-47ec-98e8-948f542bda75" />
+
+
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
 13. Vuelva a dejar la VM en el tamaño inicial para evitar cobros adicionales.
 
