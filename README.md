@@ -132,7 +132,7 @@ node FibonacciApp.js
 - Lo que realizamos
 - <img width="554" height="315" alt="image" src="https://github.com/user-attachments/assets/ca311584-186f-4488-ab3f-9be682a4cbce" />
 - <img width="483" height="392" alt="image" src="https://github.com/user-attachments/assets/37ef0621-c796-454a-9460-61836b8b83ac" />
-- <img width="834" height="458" alt="image" src="https://github.com/user-attachments/assets/6af87ae9-76d6-47ec-98e8-948f542bda75" />
+- <img width="598" height="366" alt="image" src="https://github.com/user-attachments/assets/7c89ee3c-c2df-48db-a163-c05a96462e3d" />
 
 
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
