@@ -67,6 +67,13 @@ node FibonacciApp.js
 
 ![](images/part1/part1-vm-3000InboudRule.png)
 
+- Lo que realizamos
+- Se verifica que este la regla de entrada
+- <img width="1466" height="401" alt="image" src="https://github.com/user-attachments/assets/58e814cf-7e2d-402b-acc2-30319bd7399c" />
+
+- <img width="850" height="161" alt="image" src="https://github.com/user-attachments/assets/48398091-84c1-4049-a2ec-faa1df622e80" />
+
+
 7. La función que calcula en enésimo número de la secuencia de Fibonacci está muy mal construido y consume bastante CPU para obtener la respuesta. Usando la consola del Browser documente los tiempos de respuesta para dicho endpoint usando los siguintes valores:
     * 1000000
     * 1010000
