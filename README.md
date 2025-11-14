@@ -24,13 +24,18 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
     * SSH publi key = Su llave ssh publica
 
 ![Imágen 1](images/part1/part1-vm-basic-config.png)
-Lo que realizamos 
+- Lo que realizamos
+- 
+
 <img width="760" height="600" alt="image" src="https://github.com/user-attachments/assets/a6401a31-030d-4c6a-92b7-1c58d515d729" />
 
 2. Para conectarse a la VM use el siguiente comando, donde las `x` las debe remplazar por la IP de su propia VM (Revise la sección "Connect" de la virtual machine creada para tener una guía más detallada).
 
-    `ssh scalability_lab@xxx.xxx.xxx.xxx` 
-   Lo que realizamos
+    `ssh scalability_lab@xxx.xxx.xxx.xxx`
+
+
+ -  Lo que realizamos
+ - 
      ```text
    ssh -i VERTICAL-SCALABILITY_key.pem scalability_lab@172.200.71.211
      ```
