@@ -136,23 +136,122 @@ node FibonacciApp.js
 
 
 12. Evalue el escenario de calidad asociado al requerimiento no funcional de escalabilidad y concluya si usando este modelo de escalabilidad logramos cumplirlo.
+- Lo que realizamos 
+- Sí, ya que al aumentar el tamaño de la VM, se aumenta la cantidad de CPU y memoria RAM, por lo que la aplicación puede procesar más peticiones en menos tiempo.
+
+
+
 13. Vuelva a dejar la VM en el tamaño inicial para evitar cobros adicionales.
 
 **Preguntas**
 
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
+- Azure junto con la VM crea 6 recursos adicionales que son:
+- <img width="754" height="345" alt="image" src="https://github.com/user-attachments/assets/a4510a26-1211-486f-8321-58942370d1bb" />
+
+
 2. ¿Brevemente describa para qué sirve cada recurso?
+- Public Ip address: Las direcciones IP públicas permiten que los recursos de Azure se comuniquen con Internet y con los servicios públicos de Azure. Dedicas la dirección al recurso (VM) hasta que lo desasignas.
+
+Network security group: Puede usar un grupo de seguridad de red de Azure para filtrar el tráfico de red hacia y desde los recursos de Azure en una red virtual de Azure. Un grupo de seguridad de red contiene reglas de seguridad que permiten o deniegan el tráfico de red entrante o el tráfico de red saliente desde varios tipos de recursos de Azure. Para cada regla, puede especificar origen y destino, puerto y protocolo.
+
+Virtual Network: Azure Virtual Network es un servicio que proporciona el componente fundamental para su red privada en Azure. Una instancia del servicio (una red virtual) permite que muchos tipos de recursos de Azure se comuniquen de forma segura entre sí, con Internet y con las redes locales. Estos recursos de Azure incluyen máquinas virtuales (VM).
+
+Una red virtual es similar a una red tradicional que operaría en su propio centro de datos. Pero aporta beneficios adicionales de la infraestructura de Azure, como escala, disponibilidad y aislamiento.
+
+Network Interface: Una interfaz de red (NIC) permite que una máquina virtual (VM) de Azure se comunique con Internet, Azure y recursos locales. Una máquina virtual que crea en Azure Portal tiene una NIC con la configuración predeterminada.
+
+SSH Key: Las SSH key se usan para conectarse a máquinas virtuales (VM) en Azure.
+
+Disk: Los discos administrados de Azure son volúmenes de almacenamiento a nivel de bloque administrados por Azure y utilizados con Azure Virtual Machines. Los discos administrados son como un disco físico en un servidor local pero virtualizados. Con los discos administrados, todo lo que tiene que hacer es especificar el tamaño del disco, el tipo de disco y aprovisionarlo. Una vez que aprovisiona el disco, Azure se encarga del resto.
+
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+- El comando npm FibonacciApp.js inicia un proceso que solo funciona si hay una conexión activa. Si la conexión se cierra, la aplicación se cierra y deja de funcionar.
+
+Debemos crear un Inbound port rule para permitir el tráfico de entrada al puerto 3000, ya que por defecto Azure no permite el tráfico de entrada a ningún puerto, y este es necesario para que la aplicación funcione.
+
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
+- La aplicación tarda tanto porque se calculan todos los números de la secuencia de Fibonacci hasta el número que se desea calcular, y esto toma mucho tiempo.
+
+- Antes del escalamiento:
+- <img width="560" height="348" alt="image" src="https://github.com/user-attachments/assets/dbabb15c-46df-4d0b-bf0d-43b55238d3d3" />
+- Después del escalamiento:
+- <img width="554" height="315" alt="image" src="https://github.com/user-attachments/assets/e933c189-381e-441a-821a-f73b0cce3fe7" />
+
+
+
+
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+- La función consume esa cantidad de CPU porque se calculan todos los números de la secuencia de Fibonacci hasta el número que se desea calcular, y esto necesita muchos recursos de CPU.
+- Antes del escalamiento:
+- <img width="459" height="388" alt="image" src="https://github.com/user-attachments/assets/0511353e-75ea-4a76-aff9-9e0ac24a71ec" />
+- Después del escalamiento:
+- <img width="483" height="392" alt="image" src="https://github.com/user-attachments/assets/8856743c-4664-4331-ab37-d112bb3f4532" />
+- Gráfica completa: (El punto en la gráfica es el momento en el que se realizó el escalamiento)
+- <img width="1516" height="503" alt="image" src="https://github.com/user-attachments/assets/66005f47-4b27-4a84-bb49-cba797a22453" />
+
+
+
+
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
     * Tiempos de ejecución de cada petición.
-    * Si hubo fallos documentelos y explique.
+   
+-   Tiempos de ejecución de cada petición.
+
+- Antes del escalamiento:
+
+- <img width="886" height="616" alt="image" src="https://github.com/user-attachments/assets/f8559071-1bdd-4d2b-acb8-a791d5153776" />
+- Después del escalamiento:
+- <img width="834" height="458" alt="image" src="https://github.com/user-attachments/assets/4b9836fc-90a2-4220-81d7-e4fcebc503ad" />
+ * Si hubo fallos documentelos y explique.
+   - El error ECONNRESET significa que la conexión TCP en su cliente Postman fue cerrada inesperadamente por el servidor o algún intermediario como un proxy. En el contexto de su prueba de Postman, parece que la solicitud a la API "fibonacci" en la iteración 2 fue interrumpida antes de que pudiera completarse.
+
+Este error puede ser causado por varias razones, como un servidor que se cierra inesperadamente, un tiempo de espera de la conexión, problemas de red, etc. Para solucionarlo, puede necesitar investigar el servidor y la red en la que se está ejecutando.
+- <img width="650" height="511" alt="image" src="https://github.com/user-attachments/assets/b61e2830-452d-494f-9d5c-8a5b1a887016" />
+
+
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+- Las VM de la serie B se pueden implementar en diversos tipos de hardware y procesadores, por lo que se proporciona una asignación de ancho de banda competitiva. La serie B se ejecuta en procesadores de 3.ª generación Intel® Xeon® (Ice Lake), Intel® Xeon® (Cascade Lake), Intel® Xeon® (Skylake), Intel® Xeon® (Broadwell) o Intel® Xeon® (Haswell).
+
+Las VM de la serie B son idóneas para cargas de trabajo que no necesitan un rendimiento completo de la CPU de forma continua, como los servidores web, las pruebas de concepto, las bases de datos pequeñas y los entornos de compilación de desarrollo. Estas cargas de trabajo suelen necesitar unos requisitos de rendimiento ampliables.
+- La serie B incluye los siguientes tamaños de máquina virtual:
+
+Unidad de proceso de Azure (ACU): varía.*
+Premium Storage: Compatible
+Almacenamiento en caché de Premium Storage: No compatible
+Migración en vivo: Compatible
+Actualizaciones con conservación de memoria: Compatible
+Compatibilidad con generación de VM: Generación 1 y 2
+Redes aceleradas: Compatible **
+Discos de sistema operativo efímero: Compatible
+Virtualización anidada: no compatible
+- <img width="801" height="668" alt="image" src="https://github.com/user-attachments/assets/4314aa24-62d6-478a-8e4d-42b0bacdde43" />
+
+
+
+
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+- No, porque el aumento del tamaño de la VM no es una solución escalable, ya que si se aumenta el número de peticiones, la VM no podrá procesarlas todas y se volverá a tener el mismo problema de consumo de CPU.
+
+Cuando se cambia el tamaño de la VM, la aplicación deja de funcionar y se debe volver a ejecutar.
+
+
+
 9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+
+- <img width="403" height="156" alt="image" src="https://github.com/user-attachments/assets/bcf81907-3c09-4163-9fc9-201a66b77ea2" />
+- Al cambiar el tamaño de la VM, se debe reiniciar la máquina, por lo que se pierde la conexión ssh y la aplicación deja de funcionar.
+
 10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+- Sí, porque al aumentar el tamaño de la VM, se aumenta la cantidad de CPU y memoria RAM, por lo que la aplicación puede procesar más peticiones en menos tiempo.
+
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+
+- El comportamiento es porcentualmente mejor porque se pueden procesar más peticiones en menos tiempo. Ésto se puede ver en el punto de la siguiente gráfica de consumo de CPU.
+- <img width="927" height="453" alt="image" src="https://github.com/user-attachments/assets/1df62382-faca-4183-a6f9-2e025bd95121" />
+
+<img width="1504" height="511" alt="image" src="https://github.com/user-attachments/assets/d977c874-bd02-45d0-a4a2-1919200a2ca6" />
+
 
 ### Parte 2 - Escalabilidad horizontal
 
