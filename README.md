@@ -325,8 +325,23 @@ Realice este proceso para las 3 VMs, por ahora lo haremos a mano una por una, si
 http://52.155.223.248/
 http://52.155.223.248/fibonacci/1
 ```
+- lo que realizamos
+- Se verifica que el balanceador de carga esté funcionando
+- <img width="416" height="109" alt="image" src="https://github.com/user-attachments/assets/5680a29c-fd82-4026-971a-020dfb7088de" />
+- Se verifica que la aplicación esté funcionando
+- <img width="494" height="106" alt="image" src="https://github.com/user-attachments/assets/bbf81665-f086-4628-ab9c-b97107eb4c54" />
+
 
 2. Realice las pruebas de carga con `newman` que se realizaron en la parte 1 y haga un informe comparativo donde contraste: tiempos de respuesta, cantidad de peticiones respondidas con éxito, costos de las 2 infraestrucruras, es decir, la que desarrollamos con balanceo de carga horizontal y la que se hizo con una maquina virtual escalada.
+- Se realizan las pruebas de carga con newman
+- <img width="811" height="452" alt="image" src="https://github.com/user-attachments/assets/af7e3e63-32aa-43f2-98b6-94751dee793c" />
+- El rendimiento de las máquinas virtuales con el balanceo de carga es mejor que el rendimiento de las máquinas virtuales con escalamiento vertical, ya que las máquinas virtuales con el balanceo de carga procesan más peticiones en menos tiempo.
+- Máquina virtual 1:
+- <img width="1404" height="609" alt="image" src="https://github.com/user-attachments/assets/c831b50a-c624-488b-b59c-8a1641b19ac2" />
+- Máquina virtual 2:
+- <img width="1402" height="618" alt="image" src="https://github.com/user-attachments/assets/aadd4298-aa8b-402e-a9fe-65d1d4e66811" />
+
+
 
 3. Agregue una 4 maquina virtual y realice las pruebas de newman, pero esta vez no lance 2 peticiones en paralelo, sino que incrementelo a 4. Haga un informe donde presente el comportamiento de la CPU de las 4 VM y explique porque la tasa de éxito de las peticiones aumento con este estilo de escalabilidad.
 
@@ -336,18 +351,68 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
+- Lo realizado
+- No se puedo agregar una cuarta máquina virtual porque se excedió el límite de recursos de la suscripción.
+
+La tasa de éxito de las peticiones aumentó porque al aumentar el número de máquinas virtuales, se duplica la cantidad de CPU y memoria RAM, por lo que la aplicación puede procesar más peticiones en menos tiempo.
+<img width="846" height="448" alt="image" src="https://github.com/user-attachments/assets/1da5a70a-f28a-4968-b248-97184d731f1b" />
+- Máquina virtual 1:
+- <img width="1403" height="595" alt="image" src="https://github.com/user-attachments/assets/9863f8dc-c8cb-44fe-ad33-aa95c4e1d8ca" />
+- Máquina virtual 2:
+- <img width="1414" height="603" alt="image" src="https://github.com/user-attachments/assets/64a1e28b-d5dc-46ce-98a4-688ba666cd97" />
+
+
+
+
 
 **Preguntas**
 
 * ¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
+
+-   Tipos de balanceadores de carga en Azure:
+
+Azure Front Door: es una red de entrega de aplicaciones que proporciona equilibrio de carga global y un servicio de aceleración de sitios para las aplicaciones web. Ofrece funcionalidades de capa 7 para la aplicación, como la descarga SSL, el enrutamiento basado en rutas, la conmutación por error rápida y el almacenamiento en caché para mejorar el rendimiento y la alta disponibilidad de las aplicaciones.
+
+Traffic Manager: es un equilibrador de carga de tráfico basado en DNS que le permite distribuir el tráfico de forma óptima a servicios de regiones de Azure globales, al tiempo que proporciona una alta disponibilidad y capacidad de respuesta. Dado que Traffic Manager es un servicio de equilibrio de carga basado en DNS, solo equilibra la carga en el nivel del dominio. Por ese motivo, no puede conmutar por error tan rápidamente como con Azure Front Door, debido a los desafíos comunes relacionados con el almacenamiento en caché de DNS y a los sistemas que no respetan los TTL de DNS.
+
+Application Gateway: proporciona un controlador de entrega de aplicaciones como servicio, que ofrece diversas funcionalidades de equilibrio de carga de capa 7. Úselo para optimizar la productividad de las granjas de servidores web al traspasar la carga de la terminación SSL con mayor actividad de la CPU a la puerta de enlace.
+
+Load Balancer: proporciona un servicio de equilibrio de carga de capa 4 con latencia muy baja y alto rendimiento (entrante y saliente) para todos los protocolos UDP y TCP. Se diseñó para administrar millones de solicitudes por segundo, a la vez que garantiza que la solución tiene una alta disponibilidad. Load Balancer tiene redundancia de zona, lo que asegura una alta disponibilidad en todas las zonas de disponibilidad. Admite una topología de implementación regional y una topología entre regiones.
 * ¿Cuál es el propósito del *Backend Pool*?
+  - El propósito de un backend pool es proporcionar un grupo de recursos de backend que se pueden asignar a las solicitudes de los usuarios. Los backend pools se utilizan a menudo para escalar el rendimiento de una aplicación web o API, también pueden utilizarse para mejorar la disponibilidad de una aplicación. Si un recurso de backend falla, otro recurso del pool puede tomar su lugar. Esto ayuda a garantizar que la aplicación siga siendo accesible para los usuarios Esto permite que la aplicación se escala de forma automática para satisfacer la demanda de los usuarios.
+
+
 * ¿Cuál es el propósito del *Health Probe*?
+  - El propósito del Health Probe es determinar el estado de salud de un servicio. Los Health Probes se utilizan a menudo en sistemas distribuidos para garantizar que los servicios estén disponibles y funcionando correctamente. Envía solicitudes a las instancias de backend, verificando sus respuestas y asegurándose de que estén en un estado saludable. Si una instancia no cumple con los criterios establecidos, el balanceador de carga puede excluir temporalmente esa instancia del tráfico, contribuyendo así a la escalabilidad dinámica y optimizando el rendimiento general del sistema
 * ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
+  - El propósito de la Load Balancing Rule es determinar cómo se distribuyen las solicitudes de los usuarios entre los recursos de backend de un pool de backend. Las reglas de balanceo de carga se utilizan a menudo para mejorar el rendimiento, la disponibilidad y la seguridad de las aplicaciones web y las API.
 * ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
+  - La Virtual Network de Azure permite que muchos tipos de recursos de Azure, como Azure Virtual Machines (VM), se comuniquen de forma segura entre sí, con Internet y con las redes local. Esta VNet ofrece conectividad directa a los recursos de Azure a través de una ruta optimizada a través de la red troncal de Azure. Los recursos de Azure se pueden implementar dentro de una Vnet o se pueden asociar a la Vnet mediante puntos de conexión privados o de servicio.
+
+Una subnet, o subred, es una división lógica de una red IP. Las subredes se utilizan para organizar las redes IP en segmentos más pequeños, lo que puede mejorar el rendimiento, la seguridad y la administración de la red.
+
+Address space es el conjunto de direcciones IP que se pueden utilizar en una red. El address space se divide en bloques de direcciones, que se denominan subnets.
+
+Address range es un subconjunto de un address space. Un address range se utiliza para asignar direcciones IP a los dispositivos de una red.
 * ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
+  - En Azure, una Availability Zone (AZ) es un centro de datos físico aislado dentro de una región de Azure. Las AZs están diseñadas para ser independientes entre sí, con su propia infraestructura de alimentación, refrigeración y red. Esto significa que si una AZ experimenta una interrupción, las demás AZs de la región seguirán estando disponibles.
+
+Elegir 3 AZs diferentes proporciona una mayor tolerancia a fallos. Si una AZ experimenta una interrupción, los recursos de Azure que se encuentran en las otras dos AZs seguirán estando disponibles. Esto ayuda a garantizar que los recursos de Azure estén disponibles para los usuarios incluso en caso de interrupción.
+
+En Azure, una IP zone-redundant es una dirección IP que está disponible en dos o más AZs de una región. Esto significa que si una AZ experimenta una interrupción, la IP seguirá estando disponible en otra AZ.
+
+Las IPs zone-redundant son importantes para la alta disponibilidad porque ayudan a garantizar que las aplicaciones y los servicios estén disponibles incluso si una AZ experimenta una interrupción.
 * ¿Cuál es el propósito del *Network Security Group*?
+  - En Azure, un Network Security Group (NSG) es un grupo de reglas de seguridad que se aplican a una subred de Azure. Las reglas de NSG controlan el tráfico de red que puede entrar y salir de la subred.
+
+Los NSG son una herramienta importante para la seguridad de la red en Azure. Pueden ayudar a proteger los recursos de Azure de ataques de red, como el tráfico malicioso o el tráfico no autorizado.
+
+
 * Informe de newman 1 (Punto 2)
+  - <img width="731" height="212" alt="image" src="https://github.com/user-attachments/assets/c72c76e5-9822-42a8-90bf-4ac972716835" />
+
 * Presente el Diagrama de Despliegue de la solución.
+- <img width="1205" height="616" alt="image" src="https://github.com/user-attachments/assets/90bd4172-a371-4c76-9c99-69235cd30efb" />
 
 
 
